@@ -1,6 +1,55 @@
 <html>
     <head></head>
     <body>
-        
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+        <div>
+            <div>
+                <canvas id="playerPoints"></canvas>
+            </div>
+        </div>
+        <script>
+            const timestamps = "{{ timestamps }}".split(',').map(Number);
+            const points = "{{ points }}".split(',');
+            const player_name = "{{ player_name }}";
+            const season = "{{ season }}";
+            console.log(timestamps)
+            console.log(points)
+            const ctx = document.getElementById('playerPoints').getContext('2d');
+            const myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: timestamps,
+                    datasets: [{
+                        label: player_name,
+                        data: points,
+                        backgroundColor: 'rgb(255, 203, 198)',
+                    },
+                ]},
+                    options: {
+                    parsing: {
+                        xAxisKey: "timestamp",
+                    },
+                    plugins: {
+                        title: {
+                        display: true,
+                        text: "Season " + season + " points",
+                        }
+                    },
+                    responsive: true,
+                    scales: {
+                            x: {
+                                type: 'time',
+                                stacked: false,
+                            },
+                            y: {
+                                stacked: false,
+                                min: 0,
+                            }
+                            },
+                    }
+                });
+        </script>
     </body>
 </html>
